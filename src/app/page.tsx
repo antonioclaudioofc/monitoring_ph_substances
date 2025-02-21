@@ -11,13 +11,14 @@ export default function Home() {
         <h3 className="text-4xl font-bold mb-5 text-center">
           Monitoramento do pH
         </h3>
-        <SubtanceList />
+        <SubstanceList />
       </section>
     </main>
   );
 }
 
-function SubtanceList() {
+function SubstanceList() {
+  // Corrigido o nome do componente
   const [substances, setSubstances] = useState<Substance[]>([]);
 
   useEffect(() => {
@@ -32,11 +33,12 @@ function SubtanceList() {
     })();
 
     return () => {
-      if (unsubscribe) {
+      if (typeof unsubscribe === "function") {
         unsubscribe();
       }
     };
   }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {substances.length > 0 ? (
@@ -50,7 +52,7 @@ function SubtanceList() {
             </h2>
             <p className="text-lg">
               📅{" "}
-              {new Date(substance.date)
+              {new Date(substance.date.seconds * 1000)
                 .toLocaleString("pt-BR", {
                   day: "2-digit",
                   month: "2-digit",
@@ -58,7 +60,6 @@ function SubtanceList() {
                   hour: "2-digit",
                   minute: "2-digit",
                   second: "2-digit",
-                  hour12: false,
                 })
                 .replace(",", " às")}
             </p>
